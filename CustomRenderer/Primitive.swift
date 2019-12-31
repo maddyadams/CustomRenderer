@@ -29,4 +29,12 @@ class Primitive {
     func global() -> Primitive {
         return .init(color: color, node: node)
     }
+    
+    func intersect(origin: Vec, direction dir: Vec, t: Double, distanceToLight: Double?) -> (Vec, Double)? {
+        return nil
+    }
+    
+    func normal(at point: Vec) -> Vec {
+        return .zero
+    }
 }

@@ -123,6 +123,8 @@ class RayTracer: Renderer {
         var g: CGFloat = 0
         var b: CGFloat = 0
         
+        let n = primitive.normal(at: point)
+        
         //shadow rays
         for light in lightsForRenderPass {
             switch light.lightType {
@@ -133,7 +135,7 @@ class RayTracer: Renderer {
             case .omni:
                 let lightDir = light.globalPosition - point
                 if intersectRay(origin: point, direction: lightDir, distanceToLight: lightDir.magnitude()) == nil {
-                    let raw = CGFloat(light.intensity * lightDir.dot(primitive.n) / lightDir.magnitude())
+                    let raw = CGFloat(light.intensity * lightDir.dot(n) / lightDir.magnitude())
                     
                     r += raw * primitive.color.redComponent
                     g += raw * primitive.color.greenComponent
@@ -145,7 +147,7 @@ class RayTracer: Renderer {
         guard recurseLimit - 1 > 0 else { return (r, g, b) }
         
         //reflection rays
-        let normalPart = primitive.n! * dir.dot(primitive.n)
+        let normalPart = n * dir.dot(n)
         let nonNormalPart = dir - normalPart
 
         let newDir = nonNormalPart - normalPart
@@ -170,26 +172,31 @@ class RayTracer: Renderer {
         let intersectedPrimitives = primitiveTree.intersectedPrimitives(rayOrigin: origin, rayInverseDir: inverseDir)
 
         for primitive in intersectedPrimitives {
-            
-            let n = primitive.n!
-            let p0 = primitive.a
-            //epsilon check bc the ray and plane may be parallel
-            if distanceToLight != nil {
-                guard dir.dot(n) > 1e-6 else { continue }
-            } else {
-                guard dir.dot(n) < -1e-6 else { continue }
+            if let (betterIntersection, betterT) = primitive.intersect(origin: origin, direction: dir, t: t, distanceToLight: distanceToLight) {
+                intersection = betterIntersection
+                t = betterT
+                result = primitive
             }
             
-            //t value for intersection of parameterized ray
-            let t0 = (p0 - origin).dot(n) / dir.dot(n)
-            guard 1e-6 <= t0 && t0 < t else { continue }
-            let someIntersection = origin + dir * t0
-            
-            guard primitive.contains(someIntersection) else { continue }
-            
-            intersection = someIntersection
-            t = t0
-            result = primitive
+//            let n = primitive.n!
+//            let p0 = primitive.a
+//            //epsilon check bc the ray and plane may be parallel
+//            if distanceToLight != nil {
+//                guard dir.dot(n) > 1e-6 else { continue }
+//            } else {
+//                guard dir.dot(n) < -1e-6 else { continue }
+//            }
+//
+//            //t value for intersection of parameterized ray
+//            let t0 = (p0 - origin).dot(n) / dir.dot(n)
+//            guard 1e-6 <= t0 && t0 < t else { continue }
+//            let someIntersection = origin + dir * t0
+//
+//            guard primitive.contains(someIntersection) else { continue }
+//
+//            intersection = someIntersection
+//            t = t0
+//            result = primitive
         }
         
         if let result = result, let intersection = intersection {

@@ -58,6 +58,29 @@ class Face: Primitive {
         return result
     }
     
+    override func intersect(origin: Vec, direction dir: Vec, t: Double, distanceToLight: Double?) -> (Vec, Double)? {
+//        let n = primitive.n!
+        //epsilon check bc the ray and plane may be parallel
+        if distanceToLight != nil {
+            guard dir.dot(n) > 1e-6 else { return nil }
+        } else {
+            guard dir.dot(n) < -1e-6 else { return nil }
+        }
+        
+        //t value for intersection of parameterized ray
+        let t0 = (a - origin).dot(n) / dir.dot(n)
+        guard 1e-6 <= t0 && t0 < t else { return nil }
+        let someIntersection = origin + dir * t0
+        
+        guard contains(someIntersection) else { return nil }
+        
+        return (someIntersection, t0)
+    }
+    
+    override func normal(at point: Vec) -> Vec {
+        return n
+    }
+    
     func computeRaytraceProperties() {
         u = c - a
         v = b - a

@@ -26,6 +26,7 @@
 		4EE07AC123B2FB110018E57E /* ScanLiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AC023B2FB110018E57E /* ScanLiner.swift */; };
 		4EE07AC323B6C3110018E57E /* PrimitiveTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AC223B6C3110018E57E /* PrimitiveTree.swift */; };
 		4EE07AF323BAF24F0018E57E /* Primitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AF223BAF24F0018E57E /* Primitive.swift */; };
+		4EE07AF523BB021A0018E57E /* Sphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AF423BB021A0018E57E /* Sphere.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		4EE07AC023B2FB110018E57E /* ScanLiner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanLiner.swift; sourceTree = "<group>"; };
 		4EE07AC223B6C3110018E57E /* PrimitiveTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimitiveTree.swift; sourceTree = "<group>"; };
 		4EE07AF223BAF24F0018E57E /* Primitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitive.swift; sourceTree = "<group>"; };
+		4EE07AF423BB021A0018E57E /* Sphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sphere.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				4E18F25C23A572ED0020732C /* Geometry.swift */,
 				4EE07AF223BAF24F0018E57E /* Primitive.swift */,
 				4E18F25E23A573910020732C /* Face.swift */,
+				4EE07AF423BB021A0018E57E /* Sphere.swift */,
 				4EE07AC223B6C3110018E57E /* PrimitiveTree.swift */,
 				4E18F25623A4418C0020732C /* Vec.swift */,
 				4E18F25823A443C50020732C /* Quat.swift */,
@@ -252,6 +255,7 @@
 				4E18F26323A58F160020732C /* WindowController.swift in Sources */,
 				4E18F26123A578AE0020732C /* Helpers.swift in Sources */,
 				4E18F25B23A572720020732C /* Camera.swift in Sources */,
+				4EE07AF523BB021A0018E57E /* Sphere.swift in Sources */,
 				4E18F25523A43FA90020732C /* Node.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
