@@ -26,7 +26,6 @@
 		4EE07AC123B2FB110018E57E /* ScanLiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AC023B2FB110018E57E /* ScanLiner.swift */; };
 		4EE07AC323B6C3110018E57E /* PrimitiveTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AC223B6C3110018E57E /* PrimitiveTree.swift */; };
 		4EE07AF323BAF24F0018E57E /* Primitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AF223BAF24F0018E57E /* Primitive.swift */; };
-		4EE07AF523BB021A0018E57E /* Sphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AF423BB021A0018E57E /* Sphere.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -255,7 +254,6 @@
 				4E18F26323A58F160020732C /* WindowController.swift in Sources */,
 				4E18F26123A578AE0020732C /* Helpers.swift in Sources */,
 				4E18F25B23A572720020732C /* Camera.swift in Sources */,
-				4EE07AF523BB021A0018E57E /* Sphere.swift in Sources */,
 				4E18F25523A43FA90020732C /* Node.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
