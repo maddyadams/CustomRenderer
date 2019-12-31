@@ -12,7 +12,7 @@ class RayTracer: Renderer {
     var wrapper: RendererWrapper!
     
     private var lightsForRenderPass: [Light]!
-    private var faceTree: FaceTree!
+    private var primitiveTree: PrimitiveTree!
     private var recurseLimit = 1
     private var nextRecurseLimit: Int?
     
@@ -35,7 +35,7 @@ class RayTracer: Renderer {
         self.rootNode = wrapper.rootNode
         self.camera = wrapper.camera
         self.lightsForRenderPass = rootNode.childLights()
-        self.faceTree = FaceTree(faces: rootNode.globalFaces())
+        self.primitiveTree = PrimitiveTree(primitives: rootNode.globalPrimitives())
         self.widthOffset = wrapper.widthOffset
         self.heightOffset = wrapper.heightOffset
         
@@ -95,11 +95,11 @@ class RayTracer: Renderer {
                 
                 let primaryRayDirection = camera.globalRotation.rotate(naiveDirection)
                                 
-                guard let (face, point) = intersectRay(origin: camera.globalPosition, direction: primaryRayDirection, distanceToLight: nil) else {
+                guard let (primitive, point) = intersectRay(origin: camera.globalPosition, direction: primaryRayDirection, distanceToLight: nil) else {
                     continue
                 }
                 
-                let (r, g, b) = color(at: point, with: primaryRayDirection, on: face, recurseLimit: recurseLimit)
+                let (r, g, b) = color(at: point, with: primaryRayDirection, on: primitive, recurseLimit: recurseLimit)
                 
                 let uir = UInt8(max(min(1, r), 0) * 255)
                 let uig = UInt8(max(min(1, g), 0) * 255)
@@ -111,12 +111,12 @@ class RayTracer: Renderer {
                 dataPtr.pointee[3 * i + 1] = uig
                 dataPtr.pointee[3 * i + 2] = uib
                 
-                hittestPrt.pointee[i] = face.node
+                hittestPrt.pointee[i] = primitive.node
             }
         }
     }
     
-    private func color(at point: Vec, with dir: Vec, on face: Face, recurseLimit: Int) -> (CGFloat, CGFloat, CGFloat) {
+    private func color(at point: Vec, with dir: Vec, on primitive: Primitive, recurseLimit: Int) -> (CGFloat, CGFloat, CGFloat) {
         if recurseLimit <= 0 { return (0, 0, 0) }
         
         var r: CGFloat = 0
@@ -127,17 +127,17 @@ class RayTracer: Renderer {
         for light in lightsForRenderPass {
             switch light.lightType {
             case .ambient:
-                r += CGFloat(light.intensity) * face.color.redComponent
-                g += CGFloat(light.intensity) * face.color.greenComponent
-                b += CGFloat(light.intensity) * face.color.blueComponent
+                r += CGFloat(light.intensity) * primitive.color.redComponent
+                g += CGFloat(light.intensity) * primitive.color.greenComponent
+                b += CGFloat(light.intensity) * primitive.color.blueComponent
             case .omni:
                 let lightDir = light.globalPosition - point
                 if intersectRay(origin: point, direction: lightDir, distanceToLight: lightDir.magnitude()) == nil {
-                    let raw = CGFloat(light.intensity * lightDir.dot(face.n) / lightDir.magnitude())
+                    let raw = CGFloat(light.intensity * lightDir.dot(primitive.n) / lightDir.magnitude())
                     
-                    r += raw * face.color.redComponent
-                    g += raw * face.color.greenComponent
-                    b += raw * face.color.blueComponent
+                    r += raw * primitive.color.redComponent
+                    g += raw * primitive.color.greenComponent
+                    b += raw * primitive.color.blueComponent
                 }
             }
         }
@@ -145,7 +145,7 @@ class RayTracer: Renderer {
         guard recurseLimit - 1 > 0 else { return (r, g, b) }
         
         //reflection rays
-        let normalPart = face.n! * dir.dot(face.n)
+        let normalPart = primitive.n! * dir.dot(primitive.n)
         let nonNormalPart = dir - normalPart
 
         let newDir = nonNormalPart - normalPart
@@ -160,19 +160,19 @@ class RayTracer: Renderer {
     }
     
     
-    private func intersectRay(origin: Vec, direction dir: Vec, distanceToLight: Double?) -> (Face, Vec)? {
+    private func intersectRay(origin: Vec, direction dir: Vec, distanceToLight: Double?) -> (Primitive, Vec)? {
         var t = distanceToLight ?? camera.zFar + 1
-        var result: Face!
+        var result: Primitive!
         var intersection: Vec!
         let dir = dir.normalized()
         let inverseDir = Vec(1 / dir.x, 1 / dir.y, 1 / dir.z)
         
-        let intersectedFaces = faceTree.intersectedFaces(rayOrigin: origin, rayInverseDir: inverseDir)
+        let intersectedPrimitives = primitiveTree.intersectedPrimitives(rayOrigin: origin, rayInverseDir: inverseDir)
 
-        for face in intersectedFaces {
+        for primitive in intersectedPrimitives {
             
-            let n = face.n!
-            let p0 = face.a
+            let n = primitive.n!
+            let p0 = primitive.a
             //epsilon check bc the ray and plane may be parallel
             if distanceToLight != nil {
                 guard dir.dot(n) > 1e-6 else { continue }
@@ -185,16 +185,16 @@ class RayTracer: Renderer {
             guard 1e-6 <= t0 && t0 < t else { continue }
             let someIntersection = origin + dir * t0
             
-            guard face.contains(someIntersection) else { continue }
+            guard primitive.contains(someIntersection) else { continue }
             
             intersection = someIntersection
             t = t0
-            result = face
+            result = primitive
         }
         
         if let result = result, let intersection = intersection {
             return (result, intersection)
         }
         return nil
-    }    
+    }
 }

@@ -10,26 +10,26 @@ import Foundation
 import AppKit
 
 class Geometry {
-    var faces = [Face]() {
+    var primitives = [Primitive]() {
         didSet {
-            faces.forEach { $0.node = node }
+            primitives.forEach { $0.node = node }
         }
     }
-    private(set) var globalFaces: [Face]!
+    private(set) var globalPrimitives: [Primitive]!
     
     var node: Node! {
         didSet {
-            faces.forEach { $0.node = node }
+            primitives.forEach { $0.node = node }
         }
     }
     
-    init(faces: [Face]) {
-        self.faces = faces
-        faces.forEach { $0.node = node }
+    init(primitives: [Primitive]) {
+        self.primitives = primitives
+        primitives.forEach { $0.node = node }
     }
         
     func set(color: NSColor) {
-        faces.forEach { $0.set(color: color) }
+        primitives.forEach { $0.set(color: color) }
     }
     
     static func parameterized(_ f: (Double, Double) -> Vec, uMin: Double, uMax: Double, vMin: Double, vMax: Double, uSubdiv: Int, vSubdiv: Int) -> Geometry {
@@ -42,7 +42,7 @@ class Geometry {
                 return Face.from(polygon: verts, color: .white)
             }.reduce([], +)
         }
-        return Geometry(faces: faces.reduce([], +))
+        return Geometry(primitives: faces.reduce([], +))
     }
     
     static func sphere(radius: Double, uSubdiv: Int, vSubdiv: Int) -> Geometry {
@@ -103,6 +103,6 @@ class Geometry {
                       color: .white)
         }.reduce([], +)
         
-        return Geometry(faces: faces)
+        return Geometry(primitives: faces)
     }    
 }

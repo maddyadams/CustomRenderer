@@ -24,7 +24,8 @@
 		4EE07ABD23AED8500018E57E /* Light.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07ABC23AED8500018E57E /* Light.swift */; };
 		4EE07ABF23B2F99E0018E57E /* RayTracer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07ABE23B2F99E0018E57E /* RayTracer.swift */; };
 		4EE07AC123B2FB110018E57E /* ScanLiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AC023B2FB110018E57E /* ScanLiner.swift */; };
-		4EE07AC323B6C3110018E57E /* FaceTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AC223B6C3110018E57E /* FaceTree.swift */; };
+		4EE07AC323B6C3110018E57E /* PrimitiveTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AC223B6C3110018E57E /* PrimitiveTree.swift */; };
+		4EE07AF323BAF24F0018E57E /* Primitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AF223BAF24F0018E57E /* Primitive.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,7 +61,8 @@
 		4EE07ABC23AED8500018E57E /* Light.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Light.swift; sourceTree = "<group>"; };
 		4EE07ABE23B2F99E0018E57E /* RayTracer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RayTracer.swift; sourceTree = "<group>"; };
 		4EE07AC023B2FB110018E57E /* ScanLiner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanLiner.swift; sourceTree = "<group>"; };
-		4EE07AC223B6C3110018E57E /* FaceTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceTree.swift; sourceTree = "<group>"; };
+		4EE07AC223B6C3110018E57E /* PrimitiveTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimitiveTree.swift; sourceTree = "<group>"; };
+		4EE07AF223BAF24F0018E57E /* Primitive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Primitive.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,8 +114,9 @@
 				4E18F25A23A572720020732C /* Camera.swift */,
 				4EE07ABC23AED8500018E57E /* Light.swift */,
 				4E18F25C23A572ED0020732C /* Geometry.swift */,
+				4EE07AF223BAF24F0018E57E /* Primitive.swift */,
 				4E18F25E23A573910020732C /* Face.swift */,
-				4EE07AC223B6C3110018E57E /* FaceTree.swift */,
+				4EE07AC223B6C3110018E57E /* PrimitiveTree.swift */,
 				4E18F25623A4418C0020732C /* Vec.swift */,
 				4E18F25823A443C50020732C /* Quat.swift */,
 				4E18F26023A578AE0020732C /* Helpers.swift */,
@@ -235,8 +238,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E18F25923A443C50020732C /* Quat.swift in Sources */,
-				4EE07AC323B6C3110018E57E /* FaceTree.swift in Sources */,
+				4EE07AC323B6C3110018E57E /* PrimitiveTree.swift in Sources */,
 				4E18F23723A42CC30020732C /* ViewController.swift in Sources */,
+				4EE07AF323BAF24F0018E57E /* Primitive.swift in Sources */,
 				4E18F25723A4418C0020732C /* Vec.swift in Sources */,
 				4E18F25323A43A4D0020732C /* RendererWrapper.swift in Sources */,
 				4E18F25F23A573910020732C /* Face.swift in Sources */,

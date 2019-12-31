@@ -1,5 +1,5 @@
 //
-//  FaceTree.swift
+//  PrimitiveTree.swift
 //  CustomRenderer
 //
 //  Created by Maddy Adams on 12/27/19.
@@ -8,27 +8,27 @@
 
 import Foundation
 
-class FaceTree {
+class PrimitiveTree {
     var minBounds: Vec!
     var maxBounds: Vec!
     
     var fastIntersection = false
-    var face: Face?
-    var left: FaceTree?
-    var right: FaceTree?
+    var primitive: Primitive?
+    var left: PrimitiveTree?
+    var right: PrimitiveTree?
         
-    init(faces: [Face]) {
-        guard faces.count != 0 else { fatalError() }
+    init(primitives: [Primitive]) {
+        guard primitives.count != 0 else { fatalError() }
         
-        minBounds = faces[0].minBounds
-        maxBounds = faces[0].maxBounds
-        for i in 1..<faces.count {
-            minBounds = minBounds.pointwiseMin(faces[i].minBounds)
-            maxBounds = maxBounds.pointwiseMax(faces[i].maxBounds)
+        minBounds = primitives[0].minBounds
+        maxBounds = primitives[0].maxBounds
+        for i in 1..<primitives.count {
+            minBounds = minBounds.pointwiseMin(primitives[i].minBounds)
+            maxBounds = maxBounds.pointwiseMax(primitives[i].maxBounds)
         }
         fastIntersection = minBounds.x == maxBounds.x || minBounds.y == maxBounds.y || minBounds.z == maxBounds.z
-        guard faces.count != 1 else {
-            self.face = faces[0]
+        guard primitives.count != 1 else {
+            self.primitive = primitives[0]
             return
         }
         
@@ -51,27 +51,27 @@ class FaceTree {
             fatalError()
         }
                 
-        var leftFaces = [Face]()
-        var rightFaces = [Face]()
-        for f in faces {
+        var leftPrimitives = [Primitive]()
+        var rightPrimitives = [Primitive]()
+        for p in primitives {
             //...and then also don't divide by two here
-            if f.minBounds[index] + f.maxBounds[index] < doubledPivot {
-                leftFaces.append(f)
+            if p.minBounds[index] + p.maxBounds[index] < doubledPivot {
+                leftPrimitives.append(p)
             } else {
-                rightFaces.append(f)
+                rightPrimitives.append(p)
             }
         }
         
-        if leftFaces.count == 0 || rightFaces.count == 0 {
-            self.left = .init(faces: Array(faces.prefix(upTo: faces.count / 2)))
-            self.right = .init(faces: Array(faces.suffix(from: faces.count / 2)))
+        if leftPrimitives.count == 0 || rightPrimitives.count == 0 {
+            self.left = .init(primitives: Array(primitives.prefix(upTo: primitives.count / 2)))
+            self.right = .init(primitives: Array(primitives.suffix(from: primitives.count / 2)))
         } else {
-            self.left = .init(faces: leftFaces)
-            self.right = .init(faces: rightFaces)
+            self.left = .init(primitives: leftPrimitives)
+            self.right = .init(primitives: rightPrimitives)
         }
     }
     
-    func intersectedFaces(rayOrigin: Vec, rayInverseDir dir: Vec) -> [Face] {
+    func intersectedPrimitives(rayOrigin: Vec, rayInverseDir dir: Vec) -> [Primitive] {
         //https://tavianator.com/fast-branchless-raybounding-box-intersections-part-2-nans/
         func intersectsBox() -> Bool {
             var t1 = (minBounds.x - rayOrigin.x) * dir.x
@@ -99,7 +99,7 @@ class FaceTree {
         }
         
         guard fastIntersection || intersectsBox() else { return [] }
-        guard let lt = left, let rt = right else { return [self.face!] }
-        return lt.intersectedFaces(rayOrigin: rayOrigin, rayInverseDir: dir) + rt.intersectedFaces(rayOrigin: rayOrigin, rayInverseDir: dir)
+        guard let lt = left, let rt = right else { return [self.primitive!] }
+        return lt.intersectedPrimitives(rayOrigin: rayOrigin, rayInverseDir: dir) + rt.intersectedPrimitives(rayOrigin: rayOrigin, rayInverseDir: dir)
     }
 }

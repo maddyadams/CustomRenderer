@@ -14,9 +14,10 @@ class ScanLiner: Renderer {
         let heightOffset = wrapper.heightOffset!
         
         var zBuffer = [Double].init(repeating: wrapper.camera.zFar, count: wrapper.renderedWidth * wrapper.renderedHeight)
+        print("WARNING: SCANLINE ONLY SUPPORTS FACE PRIMITIVES")
         
         for geometry in wrapper.rootNode.childGeometries() {
-            for face in geometry.faces.map({ $0.transformed(by: wrapper.camera) }) {
+            for face in geometry.primitives.compactMap({ ($0 as? Face)?.transformed(by: wrapper.camera) }) {
                 //back culling
                 let ab = face.b - face.a
                 let ac = face.c - face.a

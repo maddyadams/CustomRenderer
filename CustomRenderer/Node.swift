@@ -68,12 +68,12 @@ class Node: Hashable {
         return children.map { $0.childLights() }.reduce(self is Light ? [self as! Light] : [], +)
     }
     
-    func globalFaces() -> [Face] {
-        geometry.faces.map { $0.global() } + children.reduce([], { $0 + $1.globalFaces() })
+    func globalPrimitives() -> [Primitive] {
+        geometry.primitives.map { $0.global() } + children.reduce([], { $0 + $1.globalPrimitives() })
     }
         
     init() {
-        geometry = Geometry(faces: [])
+        geometry = Geometry(primitives: [])
         geometry.node = self
         recomputeGlobals()
     }

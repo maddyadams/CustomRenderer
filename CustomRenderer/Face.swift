@@ -9,52 +9,35 @@
 import Foundation
 import AppKit
 
-class Face: Hashable {
+class Face: Primitive {
     var a: Vec
     var b: Vec
     var c: Vec
-    private(set) var color: NSColor
-    var node: Node!
     
     private(set) var u: Vec!
     private(set) var v: Vec!
     private(set) var n: Vec!
     private(set) var ucrossv: Vec!
-    private(set) var minBounds: Vec!
-    private(set) var maxBounds: Vec!
-    
-    static func ==(lhs: Face, rhs: Face) -> Bool {
-        return lhs === rhs
-    }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(ObjectIdentifier(self).hashValue)
-    }
-    
-    func set(color: NSColor) {
-        self.color = color.usingColorSpace(.deviceRGB)!
-    }
     
     static func from(polygon: [Vec], color: NSColor) -> [Face] {
         var result = [Face]()
         if polygon.count <= 3 {
-            result.append(.init(polygon, color: color, node: nil))
+            result.append(.init(polygon, color: color))
             return result
         }
         
         for i in 2..<polygon.count {
-            result.append(.init([polygon[0], polygon[i - 1], polygon[i]], color: color, node: nil))
+            result.append(.init([polygon[0], polygon[i - 1], polygon[i]], color: color))
         }
         return result
     }
     
-    init(_ vertices: [Vec], color: NSColor, node: Node?) {
+    init(_ vertices: [Vec], color: NSColor, node: Node? = nil) {
         guard vertices.count == 3 else { fatalError() }
         a = vertices[0]
         b = vertices[1]
         c = vertices[2]
-        self.color = color.usingColorSpace(.deviceRGB)!
-        self.node = node
+        super.init(color: color, node: node)
     }
     
     func transformed(by camera: Camera) -> Face {
@@ -69,7 +52,7 @@ class Face: Hashable {
         }, color: color, node: node)
     }
     
-    func global() -> Face {
+    override func global() -> Primitive {
         let result = transformed(by: Camera())
         result.computeRaytraceProperties()
         return result
