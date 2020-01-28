@@ -45,12 +45,16 @@ class Geometry {
         return Geometry(primitives: faces.reduce([], +))
     }
     
-    static func sphere(radius: Double, uSubdiv: Int, vSubdiv: Int) -> Geometry {
-        func toLocal(u: Double, v: Double) -> Vec {
-            return Vec(radius * cos(u) * sin(v), radius * cos(v), radius * sin(u) * sin(v))
-        }
-        
-        return parameterized(toLocal, uMin: 0, uMax: 2 * .pi, vMin: 0, vMax: .pi, uSubdiv: uSubdiv, vSubdiv: vSubdiv)
+//    static func sphere(radius: Double, uSubdiv: Int, vSubdiv: Int) -> Geometry {
+//        func toLocal(u: Double, v: Double) -> Vec {
+//            return Vec(radius * cos(u) * sin(v), radius * cos(v), radius * sin(u) * sin(v))
+//        }
+//
+//        return parameterized(toLocal, uMin: 0, uMax: 2 * .pi, vMin: 0, vMax: .pi, uSubdiv: uSubdiv, vSubdiv: vSubdiv)
+//    }
+    
+    static func sphere(radius: Double) -> Geometry {
+        return .init(primitives: [Sphere(radius: radius, color: .white)])
     }
     
     static func torus(innerRadius: Double, outerRadius: Double, uSubdiv: Int, vSubdiv: Int) -> Geometry {

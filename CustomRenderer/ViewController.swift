@@ -8,6 +8,9 @@
 
 import Cocoa
 
+#error("Change this path to a suitable destination for the rendered frame on your computer")
+let filePath = "/Users/msa/Desktop/raytrace.png"
+
 class ViewController: NSViewController {
     @IBOutlet weak var imageView: NSImageView!
     var startTime: Date!
@@ -26,6 +29,15 @@ class ViewController: NSViewController {
         
         renderer.start { image in
             DispatchQueue.main.async { self.imageView.image = image }
+            DispatchQueue.main.async {
+                let data = NSBitmapImageRep(data: image.tiffRepresentation!)!.representation(using: .png, properties: [:])!
+                do {
+                    try data.write(to: URL(fileURLWithPath: filePath))
+                } catch {
+                    print("ERROR: could not write data to path \(filePath)")
+                    print("Did you remember to change the file path?")
+                }
+            }
         }
     }
         
@@ -42,7 +54,7 @@ class ViewController: NSViewController {
         throwaway.rotation *= Quat(theta: .pi / 2, axis: .xAxis)
         renderer.rootNode.addChild(throwaway)
 
-        let sphere = Node(geometry: .sphere(radius: 2, uSubdiv: 128, vSubdiv: 128))
+        let sphere = Node(geometry: .sphere(radius: 2))
         sphere.geometry.set(color: .gray)
         sphere.position = Vec(-2, 0, 25)
         renderer.rootNode.addChild(sphere)
@@ -108,14 +120,18 @@ class ViewController: NSViewController {
         case "u": renderer.camera.parent!.rotation *= Quat(theta: .pi / 60, axis: .yAxis)
         case "j": renderer.camera.parent!.rotation *= Quat(theta: -.pi / 60, axis: .yAxis)
             
-        case "z": renderer.changeScaleFactor(to: 1)
-        case "x": renderer.changeScaleFactor(to: 2)
-        case "c": renderer.changeScaleFactor(to: 3)
-        case "v": renderer.changeScaleFactor(to: 4)
-        case "b": renderer.changeScaleFactor(to: 5)
-        case "n": renderer.changeScaleFactor(to: 6)
-        case "m": renderer.changeScaleFactor(to: 7)
-        case ",": renderer.changeScaleFactor(to: 8)
+        case "z":
+            renderer.changeScaleFactor(to: 0.25)
+            (renderer.renderer as? RayTracer)?.changeRecurseLimit(to: 16)
+        case "x": renderer.changeScaleFactor(to: 1)
+        case "c": renderer.changeScaleFactor(to: 2)
+        case "v": renderer.changeScaleFactor(to: 3)
+        case "b": renderer.changeScaleFactor(to: 4)
+        case "n": renderer.changeScaleFactor(to: 5)
+        case "m": renderer.changeScaleFactor(to: 6)
+        case ",": renderer.changeScaleFactor(to: 7)
+        case ".": renderer.changeScaleFactor(to: 8)
+        case "/": renderer.changeScaleFactor(to: 9)
             
         case "i": (renderer.renderer as? RayTracer)?.changeRecurseLimit(to: 1)
         case "o": (renderer.renderer as? RayTracer)?.changeRecurseLimit(to: 2)

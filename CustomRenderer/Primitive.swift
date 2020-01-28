@@ -30,7 +30,7 @@ class Primitive {
         return .init(color: color, node: node)
     }
     
-    func intersect(origin: Vec, direction dir: Vec, t: Double, distanceToLight: Double?) -> (Vec, Double)? {
+    func intersect(origin: Vec, direction dir: Vec, t: Double, shadowRay: Bool) -> (Vec, Double)? {
         return nil
     }
     

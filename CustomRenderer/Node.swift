@@ -107,4 +107,14 @@ class Node: Hashable {
     func ancestorPassing(_ c: (Node) -> Bool) -> Node? {
         return c(self) ? self : parent?.ancestorPassing(c)
     }
+    
+    func transform(point: Vec, by camera: Camera = Camera()) -> Vec {
+        //local rotate, scale, translate, camera rotate
+        let deltaR = globalRotation
+        let deltaS = globalScale
+        let deltaT = globalPosition - camera.globalPosition
+        let deltaC = camera.globalRotation
+        
+        return (point.rotated(by: deltaR) * deltaS + deltaT).rotated(by: deltaC)
+    }
 }

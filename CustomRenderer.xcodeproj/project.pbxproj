@@ -26,6 +26,7 @@
 		4EE07AC123B2FB110018E57E /* ScanLiner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AC023B2FB110018E57E /* ScanLiner.swift */; };
 		4EE07AC323B6C3110018E57E /* PrimitiveTree.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AC223B6C3110018E57E /* PrimitiveTree.swift */; };
 		4EE07AF323BAF24F0018E57E /* Primitive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AF223BAF24F0018E57E /* Primitive.swift */; };
+		4EE07AF623BBE39A0018E57E /* Sphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE07AF423BB021A0018E57E /* Sphere.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -239,6 +240,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EE07AF623BBE39A0018E57E /* Sphere.swift in Sources */,
 				4E18F25923A443C50020732C /* Quat.swift in Sources */,
 				4EE07AC323B6C3110018E57E /* PrimitiveTree.swift in Sources */,
 				4E18F23723A42CC30020732C /* ViewController.swift in Sources */,

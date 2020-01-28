@@ -172,7 +172,7 @@ class RayTracer: Renderer {
         let intersectedPrimitives = primitiveTree.intersectedPrimitives(rayOrigin: origin, rayInverseDir: inverseDir)
 
         for primitive in intersectedPrimitives {
-            if let (betterIntersection, betterT) = primitive.intersect(origin: origin, direction: dir, t: t, distanceToLight: distanceToLight) {
+            if let (betterIntersection, betterT) = primitive.intersect(origin: origin, direction: dir, t: t, shadowRay: distanceToLight != nil) {
                 intersection = betterIntersection
                 t = betterT
                 result = primitive

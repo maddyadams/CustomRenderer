@@ -40,16 +40,20 @@ class Face: Primitive {
         super.init(color: color, node: node)
     }
     
+//    func transformed(by camera: Camera) -> Face {
+//        //local rotate, scale, translate, camera rotate
+//        let deltaR = node.globalRotation
+//        let deltaS = node.globalScale
+//        let deltaT = node.globalPosition - camera.globalPosition
+//        let deltaC = camera.globalRotation
+//
+//        return Face([a, b, c].map {
+//            ($0.rotated(by: deltaR) * deltaS + deltaT).rotated(by: deltaC)
+//        }, color: color, node: node)
+//    }
+    
     func transformed(by camera: Camera) -> Face {
-        //local rotate, scale, translate, camera rotate
-        let deltaR = node.globalRotation
-        let deltaS = node.globalScale
-        let deltaT = node.globalPosition - camera.globalPosition
-        let deltaC = camera.globalRotation
-        
-        return Face([a, b, c].map {
-            ($0.rotated(by: deltaR) * deltaS + deltaT).rotated(by: deltaC)
-        }, color: color, node: node)
+        return Face([a, b, c].map { node.transform(point: $0, by: camera) }, color: color, node: node)
     }
     
     override func global() -> Primitive {
@@ -58,10 +62,10 @@ class Face: Primitive {
         return result
     }
     
-    override func intersect(origin: Vec, direction dir: Vec, t: Double, distanceToLight: Double?) -> (Vec, Double)? {
+    override func intersect(origin: Vec, direction dir: Vec, t: Double, shadowRay: Bool) -> (Vec, Double)? {
 //        let n = primitive.n!
         //epsilon check bc the ray and plane may be parallel
-        if distanceToLight != nil {
+        if shadowRay {
             guard dir.dot(n) > 1e-6 else { return nil }
         } else {
             guard dir.dot(n) < -1e-6 else { return nil }
