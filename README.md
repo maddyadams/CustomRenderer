@@ -1,4 +1,6 @@
 # CustomRenderer
+This project started as a scanline rasterizer for a school assigment, but after the deadline, I decided to see if I could add a raytracer for fun. At the moment, I support multiple levels of reflections and a variable resolution for rendering, which allows you to temporarily sacrifice quality to move the camera around the scene, and then switch to high reflections and high resolution to get a higher quality render. 
+
 First, change the file path in ViewController.swift. Then, when you run the project, it should render frames and write them to that file path. \
 ViewController.swift handles keyboard controls and also controls what rendering method to use. You can specify ScanLiner() or RayTracer() in the call to RendererWrapper() in ViewController.viewDidLoad(). The ViewController.addNodes() method in ViewController.swift sets up the virtual scene with geometry and lighting. \
 RayTracer.swift handles the high level concepts of raytracing (shadow rays, reflection rays) and raytraces portions of the screen on different threads. \
