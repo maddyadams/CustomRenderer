@@ -10,7 +10,7 @@ This project started as a scanline rasterizer for a school assigment, but after 
 6. `Primitive.swift` is a superclass for the Face and Sphere primitives.
 7. `PrimitiveTree.swift` is an acceleration structure used by the raytracer. 
 
-![Example of a rendered image](https://ucb56f331b676711368d4ea19864.previews.dropboxusercontent.com/p/thumb/AAuOMZSF62zSj24upweXq3cRke4Fs5e4lg2BhvjU4o5KdLt7tuv8Hq46Wey60SAdbGsj6JFafsmBwCzoILe120CrJwW27LVw4kPs9zioEtROAwUbTd3LHraMjDtZu-uNu01KWO8RPGrcVLw-WgWvfbJyh0BbFQTJOBhGvF1nbp-yfeU9bSV-NXC20sUyjhX0qiTt3vUTOFS7PrbFfR6hm-p3Z0Xi10gyxdoHB0h1P0TwP_pw28rZQrctnR0CDpjRzC5ZvzpWhzBCkxj4IgcgTLmOuoc7cJzS70G9G4P-68LWIgqyplqsoNbamBFmc53GCro4gyV_ArhTMVPojfJN7JMi22YIa44-k_5Ym8PYBk-lmYXk2c0R-TGXDwd-vO5x_I7v94PTu63wdQ6mW83uXRoW/p.png?fv_content=true&size_mode=5)
+![Example of a rendered image](https://www.dropbox.com/s/npjazln9h4ap1c4/raytrace-1.png?raw=1)
 
 ## Keyboard Controls
 Note, when rendering takes a while, you may need to hold down a key until the next frame is complete for the program to register it:
